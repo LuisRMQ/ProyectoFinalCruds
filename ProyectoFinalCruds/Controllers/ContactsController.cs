@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ProyectoFinalCruds.Data;
 using ProyectoFinalCruds.Models;
 
@@ -21,19 +23,21 @@ namespace ProyectoFinalCruds.Controllers
             int pageSize = 10;
             int pageNumber = page ?? 1;
 
-            var contacts = _context.contacts.OrderBy(c => c.CUSTOMER_ID);
+            var contacts = _context.contacts
+                               .Include(o => o.Customer)
+                               .OrderBy(c => c.CONTACT_ID);
 
-            var paginatedCustomers = contacts.Skip((pageNumber - 1) * pageSize)
+            var paginatedContacts = contacts.Skip((pageNumber - 1) * pageSize)
                                               .Take(pageSize)
                                               .ToList();
 
-            int totalCustomers = _context.contacts.Count();
-            int totalPages = (int)Math.Ceiling((double)totalCustomers / pageSize);
+            int totalContacts = _context.contacts.Count();
+            int totalPages = (int)Math.Ceiling((double)totalContacts / pageSize);
 
             ViewBag.PageNumber = pageNumber;
             ViewBag.TotalPages = totalPages;
 
-            return View(paginatedCustomers);
+            return View(paginatedContacts);
         }
 
         // GET: CustomerController/Details/5
@@ -56,7 +60,14 @@ namespace ProyectoFinalCruds.Controllers
         // GET: CustomerController/Create
         public ActionResult Create()
         {
-            return View();
+            ViewBag.Customers = _context.customers
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CUSTOMER_ID.ToString(),
+                    Text = c.NAME
+                })
+                .ToList();
+            return View(new Contacts());
         }
 
         // POST: CustomerController/Create
@@ -64,12 +75,19 @@ namespace ProyectoFinalCruds.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Contacts contacts)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.contacts.Add(contacts);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Customers = _context.customers
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CUSTOMER_ID.ToString(),
+                    Text = c.NAME
+                })
+                .ToList();
             return View(contacts);
         }
 
@@ -89,7 +107,7 @@ namespace ProyectoFinalCruds.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Contacts contact)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.contacts.Update(contact);
                 _context.SaveChanges();

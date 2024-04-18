@@ -29,6 +29,11 @@ namespace ProyectoFinalCruds.Data
                 .HasOne(o => o.Customer) 
                 .WithMany() 
                 .HasForeignKey(o => o.CUSTOMER_ID);
+
+            modelBuilder.Entity<Contacts>()
+               .HasOne(o => o.Customer)
+               .WithMany()
+               .HasForeignKey(o => o.CUSTOMER_ID);
         }
     }
 }

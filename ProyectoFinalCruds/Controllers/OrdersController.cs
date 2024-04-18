@@ -112,7 +112,7 @@ namespace ProyectoFinalCruds.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Orders order)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.orders.Update(order);
                 _context.SaveChanges();
