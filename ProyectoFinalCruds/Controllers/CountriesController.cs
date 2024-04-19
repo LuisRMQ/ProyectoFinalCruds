@@ -18,8 +18,24 @@ namespace ProyectoFinalCruds.Controllers
 
         public ActionResult Index(int? page)
         {
-            IEnumerable<Countries> listaCustomers = _context.countries;
-            return View(listaCustomers);
+
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+
+            var countries = _context.countries.OrderBy(c => c.REGION_ID);
+
+            var paginatedCustomers = countries.Skip((pageNumber - 1) * pageSize)
+                                              .Take(pageSize)
+                                              .ToList();
+
+            int totalCustomers = _context.countries.Count();
+            int totalPages = (int)Math.Ceiling((double)totalCustomers / pageSize);
+
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.TotalPages = totalPages;
+
+            return View(paginatedCustomers);
+
         }
 
         // GET: CustomerController/Details/5
@@ -30,7 +46,7 @@ namespace ProyectoFinalCruds.Controllers
                 return NotFound();
             }
 
-            var contact = _context.countries.FirstOrDefault(c => c.COUNTRY_ID == id);
+            var contact = _context.countries.FirstOrDefault(c => c.COUNTRY_ID.Equals(id));
             if (contact == null)
             {
                 return NotFound();
@@ -60,9 +76,9 @@ namespace ProyectoFinalCruds.Controllers
         }
 
         // GET: CustomerController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            if (id == 0)
+            if (id.Equals(""))
             {
                 return NotFound();
             }
@@ -85,14 +101,15 @@ namespace ProyectoFinalCruds.Controllers
         }
 
         // GET: CustomerController/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(string? id)
         {
-            if (id == null)
+            Console.WriteLine(">>>>>>>>>>" + id);
+            if (id.Equals(""))
             {
                 return NotFound();
             }
 
-            var contact = _context.countries.FirstOrDefault(c => c.COUNTRY_ID == id);
+            var contact = _context.countries.FirstOrDefault(c => c.COUNTRY_ID.Equals(id));
             if (contact == null)
             {
                 return NotFound();
@@ -104,8 +121,9 @@ namespace ProyectoFinalCruds.Controllers
         // POST: CustomerController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public ActionResult DeleteConfirmed(string? id)
         {
+            Console.WriteLine(">>>>>>ID OBTENIDO " + id);
             var contact = _context.countries.Find(id);
             if (contact == null)
             {
