@@ -22,6 +22,9 @@ namespace ProyectoFinalCruds.Data
         public DbSet<Regions> regions { get; set; }
         public DbSet<Countries> countries { get; set; }
 
+        public DbSet<Locations> locations { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
