@@ -34,6 +34,11 @@ namespace ProyectoFinalCruds.Data
                .HasOne(o => o.Customer)
                .WithMany()
                .HasForeignKey(o => o.CUSTOMER_ID);
+
+            modelBuilder.Entity<Products>()
+               .HasOne(o => o.Categories)
+               .WithMany()
+               .HasForeignKey(o => o.CATEGORY_ID);
         }
     }
 }
