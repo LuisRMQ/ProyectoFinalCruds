@@ -18,5 +18,7 @@ namespace ProyectoFinalCruds.Models
         public string? PHONE { get; set; }
         [JsonPropertyName("phone")]
         public int CUSTOMER_ID { get; set; }
+
+        public Customers Customer { get; set; }
     }
 }

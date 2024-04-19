@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ProyectoFinalCruds.Data;
 using ProyectoFinalCruds.Models;
 
@@ -22,19 +24,21 @@ namespace ProyectoFinalCruds.Controllers
             int pageSize = 10;
             int pageNumber = page ?? 1;
 
-            var products = _context.products.OrderBy(c => c.PRODUCT_ID);
+            var products = _context.products
+                            .Include(o => o.Categories)
+                            .OrderBy(c => c.PRODUCT_ID);
 
-            var paginatedCustomers = products.Skip((pageNumber - 1) * pageSize)
+            var paginatedProducts = products.Skip((pageNumber - 1) * pageSize)
                                               .Take(pageSize)
                                               .ToList();
 
-            int totalCustomers = _context.products.Count();
-            int totalPages = (int)Math.Ceiling((double)totalCustomers / pageSize);
+            int totalProducts = _context.products.Count();
+            int totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
 
             ViewBag.PageNumber = pageNumber;
             ViewBag.TotalPages = totalPages;
 
-            return View(paginatedCustomers);
+            return View(paginatedProducts);
         }
 
         // GET: CustomerController/Details/5
@@ -57,6 +61,13 @@ namespace ProyectoFinalCruds.Controllers
         // GET: CustomerController/Create
         public ActionResult Create()
         {
+            ViewBag.Categories = _context.product_categories
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CATEGORY_ID.ToString(),
+                    Text = c.CATEGORY_NAME
+                })
+                .ToList();
             return View();
         }
 
@@ -65,12 +76,20 @@ namespace ProyectoFinalCruds.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Products products)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.products.Add(products);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.Categories = _context.product_categories
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CATEGORY_ID.ToString(),
+                    Text = c.CATEGORY_NAME
+                })
+                .ToList();
             return View(products);
         }
 
@@ -81,6 +100,13 @@ namespace ProyectoFinalCruds.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Categories = _context.product_categories
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CATEGORY_ID.ToString(),
+                    Text = c.CATEGORY_NAME
+                })
+                .ToList();
             var cust = _context.products.Find(id);
             return View(cust);
         }
@@ -90,8 +116,16 @@ namespace ProyectoFinalCruds.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Products product)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                // Recargar la lista de clientes
+                ViewBag.Categories = _context.product_categories
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.CATEGORY_ID.ToString(),
+                        Text = c.CATEGORY_NAME
+                    })
+                    .ToList();
                 _context.products.Update(product);
                 _context.SaveChanges();
                 return RedirectToAction("Index");

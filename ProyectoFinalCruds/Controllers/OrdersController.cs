@@ -103,6 +103,13 @@ namespace ProyectoFinalCruds.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Customers = _context.customers
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CUSTOMER_ID.ToString(),
+                    Text = c.NAME
+                })
+                .ToList();
             var cust = _context.orders.Find(id);
             return View(cust);
         }
@@ -112,13 +119,22 @@ namespace ProyectoFinalCruds.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Orders order)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                // Recargar la lista de clientes
+                ViewBag.Customers = _context.customers
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.CUSTOMER_ID.ToString(),
+                        Text = c.NAME
+                    })
+                    .ToList();
                 _context.orders.Update(order);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View();
+
+            return RedirectToAction("Index");
         }
 
         // GET: CustomerController/Delete/5

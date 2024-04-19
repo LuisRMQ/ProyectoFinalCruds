@@ -7,28 +7,45 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Customers</h4>
+    <h4>Products</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PRODUCT_ID)
+        <dt class="col-sm-2">
+            ID
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PRODUCT_ID)
+        </dd>
+        <dt class="col-sm-2">
+            Product
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PRODUCT_NAME)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DESCRIPTION)
+        <dt class="col-sm-2">
+            Description
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DESCRIPTION)
+        </dd>
+        <dt class="col-sm-2">
+            Cost
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.STANDARD_COST)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LIST_PRICE)
-        </dt>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CATEGORY_ID)
+            Price
         </dt>
-       
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LIST_PRICE)
+        </dd>
+        <dt class="col-sm-2">
+            Category
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CATEGORY_ID)
+        </dd>
     </dl>
 </div>
 <div>

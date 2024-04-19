@@ -24,5 +24,7 @@ namespace ProyectoFinalCruds.Models
         [JsonPropertyName("category_id")]
 
         public int? CATEGORY_ID { get; set; }
+
+        public Product_Categories Categories { get; set; }
     }
 }
