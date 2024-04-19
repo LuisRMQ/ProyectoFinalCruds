@@ -25,24 +25,24 @@ namespace ProyectoFinalCruds.Controllers
                         join p in _context.products on i.PRODUCT_ID equals p.PRODUCT_ID
                         join w in _context.warehouses on i.WAREHOUSE_ID equals w.WAREHOUSE_ID
                         orderby i.PRODUCT_ID
-                        select new
+                        select new Iventories // Cambia aquí
                         {
-                            ProductId = i.PRODUCT_ID,
-                            WarehouseId = i.WAREHOUSE_ID,
-                            Quantity = i.QUANTITY
+                            PRODUCT_ID = i.PRODUCT_ID,
+                            WAREHOUSE_ID = i.WAREHOUSE_ID,
+                            QUANTITY = i.QUANTITY
                         };
 
-            var paginatedCustomers = query.Skip((pageNumber - 1) * pageSize)
-                                          .Take(pageSize)
-                                          .ToList();
+            var paginatedInventories = query.Skip((pageNumber - 1) * pageSize)
+                                            .Take(pageSize)
+                                            .ToList();
 
-            int totalCustomers = _context.inventories.Count();
-            int totalPages = (int)Math.Ceiling((double)totalCustomers / pageSize);
+            int totalInventories = _context.inventories.Count();
+            int totalPages = (int)Math.Ceiling((double)totalInventories / pageSize);
 
             ViewBag.PageNumber = pageNumber;
             ViewBag.TotalPages = totalPages;
 
-            return View(paginatedCustomers);
+            return View(paginatedInventories);
         }
 
         // GET: CustomerController/Details/5
