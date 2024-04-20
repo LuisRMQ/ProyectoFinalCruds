@@ -101,7 +101,7 @@ namespace ProyectoFinalCruds.Controllers
         }
 
         // GET: CustomerController/Delete/5
-        public ActionResult Delete(string? id)
+        public ActionResult Delete(string id)
         {
             Console.WriteLine(">>>>>>>>>>" + id);
             if (id.Equals(""))
@@ -120,10 +120,8 @@ namespace ProyectoFinalCruds.Controllers
 
         // POST: CustomerController/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string? id)
+        public ActionResult DeleteConfirm(string? id)
         {
-            Console.WriteLine(">>>>>>ID OBTENIDO " + id);
             var contact = _context.countries.Find(id);
             if (contact == null)
             {
