@@ -13,7 +13,14 @@ namespace ProyectoFinalCruds.Models
         public int? WAREHOUSE_ID { get; set; }
         [JsonPropertyName("quantity")]
         public int? QUANTITY { get; set; }
-     
+        public string? ProductName { get; set; }
+        public string? WarehouseName { get; set; }
+
+
+        public Warehouses warehouses { get; set; }
+
+        public Products products { get; set; }
+
 
     }
 }

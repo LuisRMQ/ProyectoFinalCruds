@@ -7,23 +7,38 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Customers</h4>
+    <h4>Orders</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ORDER_ID)
+            Order ID
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CUSTOMER_ID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.STATUS)
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.ORDER_ID)
         </dt>
-        <dd class = "col-sm-10">
+        <dt class="col-sm-2">
+            Status
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.STATUS)
+        </dt>
+        <dt class="col-sm-2">
+            Customer
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.Customer.NAME)
+        </dt>
+        <dt class="col-sm-2">
+            Salesman
+        </dt>
+        <dt class="col-sm-10">
             @Html.DisplayFor(model => model.SALESMAN_ID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ORDER_DATE)
+        </dt>
+        <dt class="col-sm-2">
+            Order Date
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.ORDER_DATE)
         </dt>
        
     </dl>

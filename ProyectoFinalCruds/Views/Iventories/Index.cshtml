@@ -1,25 +1,22 @@
 ﻿@model IEnumerable<ProyectoFinalCruds.Models.Iventories>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Inventory";
 }
 
-<h1>Index</h1>
+<h1>Inventory</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PRODUCT_ID)
+                Product
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WAREHOUSE_ID)
+                Warehouse
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.QUANTITY)
+                Quantity
             </th>
             <th></th>
         </tr>
@@ -29,18 +26,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PRODUCT_ID)
+                    @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.WAREHOUSE_ID)
+                    @Html.DisplayFor(modelItem => item.WarehouseName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.QUANTITY)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.PRODUCT_ID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.PRODUCT_ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.PRODUCT_ID })
                 </td>
             </tr>
         }

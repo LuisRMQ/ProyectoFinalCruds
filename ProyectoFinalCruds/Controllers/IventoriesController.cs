@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProyectoFinalCruds.Data;
 using ProyectoFinalCruds.Models;
 
@@ -27,8 +28,8 @@ namespace ProyectoFinalCruds.Controllers
                         orderby i.PRODUCT_ID
                         select new Iventories // Cambia aquí
                         {
-                            PRODUCT_ID = i.PRODUCT_ID,
-                            WAREHOUSE_ID = i.WAREHOUSE_ID,
+                            ProductName = p.PRODUCT_NAME,
+                            WarehouseName = w.WAREHOUSE_NAME,
                             QUANTITY = i.QUANTITY
                         };
 
@@ -82,63 +83,5 @@ namespace ProyectoFinalCruds.Controllers
             return View(inventories);
         }
 
-        // GET: CustomerController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            if (id == 0)
-            {
-                return NotFound();
-            }
-            var cust = _context.inventories.Find(id);
-            return View(cust);
-        }
-
-        // POST: CustomerController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Iventories inventories)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.inventories.Update(inventories);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-
-        // GET: CustomerController/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = _context.inventories.FirstOrDefault(c => c.PRODUCT_ID == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return View(customer);
-        }
-
-        // POST: CustomerController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
-        {
-            var customer = _context.inventories.Find(id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            _context.inventories.Remove(customer);
-            _context.SaveChanges();
-
-            return RedirectToAction(nameof(Index));
-        }
     }
 }
