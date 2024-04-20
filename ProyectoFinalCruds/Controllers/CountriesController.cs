@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProyectoFinalCruds.Data;
 using ProyectoFinalCruds.Models;
 
@@ -21,8 +22,9 @@ namespace ProyectoFinalCruds.Controllers
 
             int pageSize = 10;
             int pageNumber = page ?? 1;
-
-            var countries = _context.countries.OrderBy(c => c.REGION_ID);
+            var countries = _context.countries
+                .Include(o => o.Regions)
+                .OrderBy(c => c.REGION_ID);
 
             var paginatedCustomers = countries.Skip((pageNumber - 1) * pageSize)
                                               .Take(pageSize)
@@ -39,14 +41,16 @@ namespace ProyectoFinalCruds.Controllers
         }
 
         // GET: CustomerController/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var contact = _context.countries.FirstOrDefault(c => c.COUNTRY_ID.Equals(id));
+            var contact = _context.countries
+                    .Include(o => o.Regions)
+                    .FirstOrDefault(c => c.COUNTRY_ID == id);
             if (contact == null)
             {
                 return NotFound();
@@ -91,7 +95,7 @@ namespace ProyectoFinalCruds.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Countries countries)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.countries.Update(countries);
                 _context.SaveChanges();

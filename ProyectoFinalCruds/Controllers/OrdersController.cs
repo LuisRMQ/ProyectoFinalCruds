@@ -48,7 +48,9 @@ namespace ProyectoFinalCruds.Controllers
                 return NotFound();
             }
 
-            var order = _context.orders.FirstOrDefault(c => c.ORDER_ID == id);
+            var order = _context.orders
+                    .Include(o => o.Customer)
+                    .FirstOrDefault(c => c.ORDER_ID == id);
             if (order == null)
             {
                 return NotFound();

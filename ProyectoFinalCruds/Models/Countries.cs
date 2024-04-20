@@ -15,6 +15,8 @@ namespace ProyectoFinalCruds.Models
         [JsonPropertyName("region_id")]
 
         public int? REGION_ID { get; set; }
+
+        public Regions Regions { get; set; }
    
     }
 }
