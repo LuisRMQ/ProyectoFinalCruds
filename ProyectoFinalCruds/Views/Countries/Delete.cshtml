@@ -21,10 +21,10 @@
             @Html.DisplayNameFor(model => model.REGION_ID)
         </dt>
     </dl>
-    
-    <form asp-action="DeleteConfirmed" method="post">
-        <input type="hidden" asp-for="COUNTRY_ID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+
+    <form asp-action="DeleteConfirm" method="post">
+        @Html.AntiForgeryToken()  <!-- Para prevenir CSRF -->
+        <input type="hidden" name="id" value="@Model.COUNTRY_ID" />
+        <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this?');" />
     </form>
 </div>
